@@ -6,30 +6,36 @@ module E16Theme
 
     def BEGIN_BORDER(*args)
       raise "wait" if args.first.nil?
-      @current_border = args.first
+      @current_border = args.shift
       @border_defs ||= {}
       @border_defs[@current_border] ||= {coords: args}
     end
 
     def BORDER_CHANGES_SHAPE(*args)
-      @border_defs[@current_border] ||= {BORDER_CHANGES_SHAPE: args}
+      @border_defs[@current_border] ||= {}
+      @border_defs[@current_border][:BORDER_CHANGES_SHAPE] = args
     end
 
     def BORDER_SHADE_DIRECTION(*args)
-      @border_defs[@current_border] ||= {BORDER_SHADE_DIRECTION: args}
+      @border_defs[@current_border] ||= {}
+      @border_defs[@current_border][:BORDER_SHADE_DIRECTION] = args
+    end
+
+    def BEGIN_BORDER_PART(part_name, a, b, c, d)
+      @part_name = part_name
+      @border_defs[@current_border] ||= {}
+      @border_defs[@current_border][@part_name] ||= {coords: [a,b,c,d]}
     end
 
     def method_missing(method_name, *args)
       args.unshift(method_name)
       case method_name.to_sym
-      when :BORDER_CHANGES_SHAPE
-      when :BEGIN_BORDER_PART
       when :BORDER_PART_REGION
       when :BORDER_PART_CURSOR
       when :BORDER_PART_ACTION
       when :BORDER_PART_KEEP_WHEN_SHADED
       when :BORDER_PART_TITLE
-        @border_defs[@current_border] ||= {method_name => args}
+        @border_defs[@current_border][@part_name][method_name] = args
       else
         raise method_name.inspect
       end
@@ -113,8 +119,16 @@ module E16Theme
       :up
     end
 
+    def __DOWN
+      :down
+    end
+
     def __LEFT
       :left
+    end
+
+    def __RIGHT
+      :right
     end
 
     def __ON

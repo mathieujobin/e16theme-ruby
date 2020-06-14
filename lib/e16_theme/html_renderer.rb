@@ -1,6 +1,6 @@
 module E16Theme
   class HtmlRenderer
-    def initialize(theme_path, image_definitions, border_definitions, mode)
+    def initialize(theme_path, image_definitions, border_definitions, mode=nil)
       @theme_path = theme_path
       @image_definitions = image_definitions
       @border_definitions = border_definitions
