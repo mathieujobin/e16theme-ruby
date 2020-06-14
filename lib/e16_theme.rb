@@ -6,6 +6,12 @@ require "e16_theme/dock_configurator"
 require "e16_theme/parser"
 require "e16_theme/html_renderer"
 
+class NilClass
+  def present?
+    false
+  end
+end
+
 module E16Theme
   class Error < StandardError; end
   # Your code goes here...

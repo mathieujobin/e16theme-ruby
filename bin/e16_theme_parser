@@ -10,6 +10,6 @@ theme_path = ARGV.first || '.'
 parser = E16Theme::Parser.new(theme_path)
 parser.parse
 
-renderer = E16Theme::HtmlRenderer.new(parser.image_definitions, parser.border_definitions)
+renderer = E16Theme::HtmlRenderer.new(theme_path, parser.image_definitions, parser.border_definitions)
 
 puts renderer.draw_window_html
