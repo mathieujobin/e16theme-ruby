@@ -37,59 +37,27 @@ module E16Theme
       :menuknopf_kill
     end
 
-    def IMAGE_NORMAL(a,b,c,d,e,f)
-      @image_defs[@current_image][:normal_pix] = a
-      @image_defs[@current_image][:normal_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_NORMAL_ACTIVE(a,b,c,d,e,f)
-      @image_defs[@current_image][:active_pix] = a
-      @image_defs[@current_image][:active_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_NORMAL_STICKY(a,b,c,d,e,f)
-      @image_defs[@current_image][:sticky_pix] = a
-      @image_defs[@current_image][:sticky_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_HILITED(a,b,c,d,e,f)
-      @image_defs[@current_image][:hilited_pix] = a
-      @image_defs[@current_image][:hilited_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_HILITED_ACTIVE(a,b,c,d,e,f)
-      @image_defs[@current_image][:hilited_active_pix] = a
-      @image_defs[@current_image][:hilited_active_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_HILITED_STICKY(a,b,c,d,e,f)
-      @image_defs[@current_image][:hilited_sticky_pix] = a
-      @image_defs[@current_image][:hilited_sticky_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_CLICKED(a,b,c,d,e,f)
-      @image_defs[@current_image][:clicked_pix] = a
-      @image_defs[@current_image][:clicked_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_CLICKED_ACTIVE(a,b,c,d,e,f)
-      @image_defs[@current_image][:clicked_active_pix] = a
-      @image_defs[@current_image][:clicked_active_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_CLICKED_STICKY(a,b,c,d,e,f)
-      @image_defs[@current_image][:clicked_sticky_pix] = a
-      @image_defs[@current_image][:clicked_sticky_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_NORMAL_ACTIVE_STICKY(a,b,c,d,e,f)
-      @image_defs[@current_image][:active_sticky_pix] = a
-      @image_defs[@current_image][:active_sticky_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_NORMAL_ACTIVE_HILITED(a,b,c,d,e,f)
-      @image_defs[@current_image][:active_hilited_pix] = a
-      @image_defs[@current_image][:active_hilited_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_NORMAL_ACTIVE_CLICKED(a,b,c,d,e,f)
-      @image_defs[@current_image][:active_clicked_pix] = a
-      @image_defs[@current_image][:active_clicked_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_HILITED_ACTIVE_STICKY(a,b,c,d,e,f)
-      @image_defs[@current_image][:HILITED_active_clicked_pix] = a
-      @image_defs[@current_image][:HILITED_active_clicked_meta] = [b,c,d,e,f]
-    end
-    def IMAGE_CLICKED_ACTIVE_STICKY
+    %w[
+      IMAGE_NORMAL
+      IMAGE_NORMAL_ACTIVE
+      IMAGE_NORMAL_STICKY
+      IMAGE_HILITED
+      IMAGE_HILITED_ACTIVE
+      IMAGE_HILITED_STICKY
+      IMAGE_CLICKED
+      IMAGE_CLICKED_ACTIVE
+      IMAGE_CLICKED_STICKY
+      IMAGE_NORMAL_ACTIVE_STICKY
+      IMAGE_NORMAL_ACTIVE_HILITED
+      IMAGE_NORMAL_ACTIVE_CLICKED
+      IMAGE_HILITED_ACTIVE_STICKY
+      IMAGE_CLICKED_ACTIVE_STICKY
+    ].each do |method_name|
+      define_method(method_name) do |*args|
+        @image_defs[@current_image][method_name] ||= {}
+        @image_defs[@current_image][method_name][:pix] = args.shift
+        @image_defs[@current_image][method_name][:meta] = args
+      end
     end
 
     def IMAGE_PADDING(a,b,c,d)

@@ -20,6 +20,7 @@ module E16Theme
         td.inside {background-color: darkgreen; }
         td.left {text-align: right; }
         tr.bottom td {vertical-align: top; }
+        tr.top td {vertical-align: top;}
         </style>
         <ul>
           #{found_modes_links}
@@ -109,10 +110,10 @@ module E16Theme
     end
 
     def draw_element(element)
-      if @border_definitions[element].present?
-        puts @border_definitions[element]
+      if @border_definitions[:default_definition][:parts][element].present?
+        puts @border_definitions[:default_definition][:parts][element]
       end
-      img_link @image_definitions.dig(element, @mode.to_sym)
+      img_link @image_definitions.dig(element, @mode.to_s, :pix)
     end
 
     def img_link(link)
@@ -121,7 +122,7 @@ module E16Theme
     end
 
     def found_modes
-      @image_definitions.values.map {|v| v&.keys&.grep(/pix$/)}.flatten.uniq
+      @image_definitions.values.map {|v| v&.keys&.grep(/^IMAGE_/)}.flatten.uniq
     end
 
     def found_modes_links
