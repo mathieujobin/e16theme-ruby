@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "e16_theme"
+
+puts RUBY_VERSION
+
+theme_path = ARGV.first || '.'
+
+E16Theme::Parser.new(theme_path).parse
