@@ -24,15 +24,33 @@ module E16Theme
         <ul>
           #{found_modes_links}
         </ul>
-        #{draw_all_window_types}
+        Available definitions: #{draw_all_window_types}
+        <H3>Default definition</H3>
+        #{draw_default_window}
+        <H3>Recipe</H3>
+        <pre>#{@border_definitions[E16Theme::BordersMethods::DEFAULT].to_yaml}</pre>
+        <H3>Hardcoded table built from E13 example</H3>
         #{draw_e13_hardcoded_window}
       }
     end
 
+    def border_types
+      E16Theme::BordersMethods::MAIN_BORDER_TYPES
+    end
+
     def draw_all_window_types
-      E16Theme::BordersMethods::MAIN_BORDER_TYPES.map do |border_type|
-        @border_definitions[border_type].inspect
-      end
+      border_types.select{|bt| @border_definitions[bt].present?}.map do |border_type|
+        # "<H3>#{border_type}</H3>"
+        # <pre>#{@border_definitions[border_type]&.keys}</pre>"
+        border_type
+      end.join(", ")
+    end
+
+    def draw_default_window
+      @border_definitions[E16Theme::BordersMethods::DEFAULT][:parts].map do |part_name, part_def|
+        #"#{part_name}<pre>#{part_def.inspect}</pre>#{draw_element(part_name)}"
+        draw_element(part_name)
+      end.join("")
     end
 
     def draw_e13_hardcoded_window
