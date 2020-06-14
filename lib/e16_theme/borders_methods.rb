@@ -1,18 +1,26 @@
 module E16Theme
   module BordersMethods
+    def border_definitions
+      @border_defs || {}
+    end
+
     def BEGIN_BORDER(*args)
-      puts args.inspect
+      raise "wait" if args.first.nil?
+      @current_border = args.first
+      @border_defs ||= {}
+      @border_defs[@current_border] ||= {coords: args}
     end
 
     def BORDER_CHANGES_SHAPE(*args)
-      puts args.inspect
+      @border_defs[@current_border] ||= {BORDER_CHANGES_SHAPE: args}
     end
 
     def BORDER_SHADE_DIRECTION(*args)
-      puts args.inspect
+      @border_defs[@current_border] ||= {BORDER_SHADE_DIRECTION: args}
     end
 
     def method_missing(method_name, *args)
+      args.unshift(method_name)
       case method_name.to_sym
       when :BORDER_CHANGES_SHAPE
       when :BEGIN_BORDER_PART
@@ -21,26 +29,22 @@ module E16Theme
       when :BORDER_PART_ACTION
       when :BORDER_PART_KEEP_WHEN_SHADED
       when :BORDER_PART_TITLE
-        puts [method_name, args].inspect
+        @border_defs[@current_border] ||= {method_name => args}
       else
         raise method_name.inspect
       end
     end
 
-    def xBORDERLESS(*args)
-      puts args.inspect
-    end
-
     private
 
     ### Main borders elements (images)
-    TITLE_BAR_HORIZONTAL=:title_bar_horizontal
-    BAR_VERTICAL=:bar_vertical
-    BAR_HORIZONTAL=:bar_horizontal
-    BAR_TOP=:bar_top
-    TITLEBAR=:title_bar
-    FIN=:border_fin
-    WIN_TOP_TITLE=:win_top_title
+    TITLE_BAR_HORIZONTAL=:TITLE_BAR_HORIZONTAL
+    BAR_VERTICAL=:BAR_VERTICAL
+    BAR_HORIZONTAL=:BAR_HORIZONTAL
+    BAR_TOP=:BAR_TOP
+    TITLEBAR=:TITLE_BAR
+    FIN=:BORDER_FIN
+    WIN_TOP_TITLE=:WIN_TOP_TITLE
     WIN_BOTTOM=:WIN_BOTTOM
     WIN_SIDE_LEFT=:WIN_SIDE_LEFT
     WIN_SIDE_RIGHT=:WIN_SIDE_RIGHT
@@ -80,7 +84,7 @@ module E16Theme
 
     ACTION_MOVE=:ACTION_MOVE
     MOVE=:MOVE
-    TEXT1=nil
+    TEXT1=:text1
 
     RESIZE_H=:resize_h
     RESIZE_TR=:RESIZE_TR
@@ -91,16 +95,16 @@ module E16Theme
     ACTION_RESIZE=:resize_h
     RESIZE_W=:resize_w
 
-    FIXED_FRAME=nil
-    FIXED_SIZE=nil
+    FIXED_FRAME=:fixed_frame
+    FIXED_SIZE=:fixed_size
 
     ICONBOX=:iconbox_definition
     PAGER=:pager_definition
-    PAGER_RIGHT=nil
-    SHAPED=nil
-    TRANSIENT=nil
-    BUTTON_SLIDEOUT=nil
-    ACTION_WINDOW_SLIDEOUT=nil
+    PAGER_RIGHT=:pager_right
+    SHAPED=:shaped
+    TRANSIENT=:transient
+    BUTTON_SLIDEOUT=:button_slideout
+    ACTION_WINDOW_SLIDEOUT=:action_window_slideout
 
     def __UP
       :up

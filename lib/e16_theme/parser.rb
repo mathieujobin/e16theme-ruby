@@ -15,7 +15,7 @@ module E16Theme
     def parse
       puts images_content if ENV['E16PARSEDEBUG']
       eval images_content
-      puts "*" * 50
+      puts "*" * 50 if ENV['E16PARSEDEBUG']
       puts borders_content if ENV['E16PARSEDEBUG']
       eval borders_content
       puts image_inspect if ENV['E16PARSEDEBUG']

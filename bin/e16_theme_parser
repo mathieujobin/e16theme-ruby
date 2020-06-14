@@ -3,8 +3,13 @@
 require "bundler/setup"
 require "e16_theme"
 
-puts RUBY_VERSION
+puts RUBY_VERSION if ENV['E16PARSEDEBUG']
 
 theme_path = ARGV.first || '.'
 
-E16Theme::Parser.new(theme_path).parse
+parser = E16Theme::Parser.new(theme_path)
+parser.parse
+
+renderer = E16Theme::HtmlRenderer.new(parser.image_definitions, parser.border_definitions)
+
+puts renderer.draw_window_html

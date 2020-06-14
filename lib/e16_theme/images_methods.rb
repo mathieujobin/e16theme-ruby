@@ -9,6 +9,10 @@ module E16Theme
       @current_image = image_tagname
     end
 
+    def image_definitions
+      @image_defs
+    end
+
     def __STRETCH
       :stretch
     end
@@ -63,7 +67,7 @@ module E16Theme
     end
 
     def IMAGE_PADDING(a,b,c,d)
-#       puts {a: a, b: b, c: c, d: d}.inspect
+      @image_defs[@current_image][:image_padding] = {a: a, b: b, c: c, d: d}
     end
 
     END_IMAGE=nil
