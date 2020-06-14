@@ -25,6 +25,18 @@ module E16Theme
       :tile_h
     end
 
+    def __TILE
+      :tile
+    end
+
+    def __SCALE
+      :scale
+    end
+
+    def menuknopf_kill
+      :menuknopf_kill
+    end
+
     def IMAGE_NORMAL(a,b,c,d,e,f)
       @image_defs[@current_image][:normal_pix] = a
       @image_defs[@current_image][:normal_meta] = [b,c,d,e,f]
@@ -72,6 +84,12 @@ module E16Theme
     def IMAGE_NORMAL_ACTIVE_CLICKED(a,b,c,d,e,f)
       @image_defs[@current_image][:active_clicked_pix] = a
       @image_defs[@current_image][:active_clicked_meta] = [b,c,d,e,f]
+    end
+    def IMAGE_HILITED_ACTIVE_STICKY(a,b,c,d,e,f)
+      @image_defs[@current_image][:HILITED_active_clicked_pix] = a
+      @image_defs[@current_image][:HILITED_active_clicked_meta] = [b,c,d,e,f]
+    end
+    def IMAGE_CLICKED_ACTIVE_STICKY
     end
 
     def IMAGE_PADDING(a,b,c,d)
