@@ -24,7 +24,8 @@ module E16Theme
     def BEGIN_BORDER_PART(part_name, a, b, c, d)
       @part_name = part_name
       @border_defs[@current_border] ||= {}
-      @border_defs[@current_border][@part_name] ||= {coords: [a,b,c,d]}
+      @border_defs[@current_border][:parts] ||= {@part_name => {}}
+      @border_defs[@current_border][:parts][@part_name] ||= {coords: [a,b,c,d]}
     end
 
     def method_missing(method_name, *args)
@@ -35,7 +36,7 @@ module E16Theme
       when :BORDER_PART_ACTION
       when :BORDER_PART_KEEP_WHEN_SHADED
       when :BORDER_PART_TITLE
-        @border_defs[@current_border][@part_name][method_name] = args
+        @border_defs[@current_border][:parts][@part_name][method_name] = args
       else
         raise method_name.inspect
       end
