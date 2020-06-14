@@ -17,6 +17,14 @@ module E16Theme
       :stretch
     end
 
+    def __STRECH
+      :stretch
+    end
+
+    def __TILE_H
+      :tile_h
+    end
+
     def IMAGE_NORMAL(a,b,c,d,e,f)
       @image_defs[@current_image][:normal_pix] = a
       @image_defs[@current_image][:normal_meta] = [b,c,d,e,f]
