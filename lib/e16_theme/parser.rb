@@ -8,11 +8,14 @@ module E16Theme
     end
 
     include ImagesMethods
-#    include BordersMethods
+    include BordersMethods
+    include WidgetStyling
+    include DockConfigurator
 
     def parse
-      puts images_content
+      #puts images_content
       eval images_content
+      puts "*" * 50
       puts borders_content
       eval borders_content
     end
@@ -50,6 +53,7 @@ module E16Theme
 
     def etheme_load_include(configfile)
       unless configfile == 'definitions'
+        puts "###### BEGIN PARSING #{configfile} <<<<"
         eval File.read("#{theme_path}/#{configfile}")
       end
     end

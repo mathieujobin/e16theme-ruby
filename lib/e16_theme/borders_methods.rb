@@ -33,25 +33,55 @@ module E16Theme
 
     private
 
-    BORDERLESS="borderless"
-    BORDER_CHANGES_SHAPE=:BORDER_CHANGES_SHAPE
-    ACTION_KILL=:ACTION_KILL
-    BUTTON_KILL=:BUTTON_KILL
-    KILL=:KILL
-
-    BUTTON_SHADE=:BUTTON_SHADE
-    ACTION_SHADE=:ACTION_SHADE
-    SHADE=:SHADE
-
-    BUTTON_ICONIFY=:BUTTON_ICONIFY
-    ACTION_ICONIFY=:ACTION_ICONIFY
-    ICONIFY=:ICONIFY
-
-    BUTTON_STICK=:BUTTON_STICK
-    ACTION_STICK=:ACTION_STICK
-
+    ### Main borders elements (images)
+    TITLE_BAR_HORIZONTAL=:title_bar_horizontal
+    BAR_VERTICAL=:bar_vertical
+    BAR_HORIZONTAL=:bar_horizontal
+    BAR_TOP=:bar_top
+    TITLEBAR=:title_bar
+    FIN=:border_fin
+    WIN_TOP_TITLE=:win_top_title
+    WIN_BOTTOM=:WIN_BOTTOM
     WIN_SIDE_LEFT=:WIN_SIDE_LEFT
     WIN_SIDE_RIGHT=:WIN_SIDE_RIGHT
+    WIN_CORNER_BL=:WIN_CORNER_BL
+    WIN_CORNER_BR=:WIN_CORNER_BR
+
+    ### Border buttons (images)
+    BUTTON_KILL=:BUTTON_KILL
+    BUTTON_SHADE=:BUTTON_SHADE
+    BUTTON_ICONIFY=:BUTTON_ICONIFY
+    BUTTON_STICK=:BUTTON_STICK
+    BUTTON=:default_button
+
+    # Pager buttons (images)
+    PB1=:pager_button1
+    PB2=:pager_button2
+    PB3=:pager_button3
+    PB4=:pager_button4
+    PB5=:pager_button5
+    PB6=:pager_button6
+    PB7=:pager_button7
+    PB8=:pager_button8
+
+    # Borders default definitions
+    BORDERLESS=:borderless
+    END_BORDER=:end_border
+    END_BORDER_PART=nil
+    DEFAULT="default"
+    BORDER_CHANGES_SHAPE=:BORDER_CHANGES_SHAPE
+    KILL=:KILL
+    ACTION_KILL=:ACTION_KILL
+    ICONIFY=:ICONIFY
+    ACTION_ICONIFY=:ACTION_ICONIFY
+    SHADE=:SHADE
+    ACTION_SHADE=:ACTION_SHADE
+    ACTION_STICK=:ACTION_STICK
+
+    ACTION_MOVE=:ACTION_MOVE
+    MOVE=:MOVE
+    TEXT1=nil
+
     RESIZE_H=:resize_h
     RESIZE_TR=:RESIZE_TR
     RESIZE_BR=:RESIZE_BR
@@ -59,41 +89,18 @@ module E16Theme
     ACTION_RESIZE_V=:resize_v
     ACTION_RESIZE_H=:resize_h
     ACTION_RESIZE=:resize_h
-    #   RESIZE_W=:resize_w
+    RESIZE_W=:resize_w
 
-    ACTION_MOVE=:ACTION_MOVE
-    MOVE=:MOVE
-
-    WIN_CORNER_BL=:WIN_CORNER_BL
-    WIN_CORNER_BR=:WIN_CORNER_BR
-    WIN_BOTTOM=:WIN_BOTTOM
-
-    TITLEBAR=:title_bar
-    BAR_TOP=:bar_top
-    BAR_VERTICAL=:bar_vertical
-
-    BUTTON_BLACK=:BUTTON_BLACK
-
-    ICONBOX=nil
-    PAGER=nil
-    PAGER_RIGHT=nil
-    PB1=nil
-    PB2=nil
-    PB3=nil
-    PB4=nil
-    PB5=nil
-    PB6=nil
-    PB7=nil
-    PB8=nil
     FIXED_FRAME=nil
     FIXED_SIZE=nil
-    TEXT1=nil
-    FIN=nil
+
+    ICONBOX=:iconbox_definition
+    PAGER=:pager_definition
+    PAGER_RIGHT=nil
     SHAPED=nil
     TRANSIENT=nil
-    END_BORDER=nil
-    END_BORDER_PART=nil
-    DEFAULT="default"
+    BUTTON_SLIDEOUT=nil
+    ACTION_WINDOW_SLIDEOUT=nil
 
     def __UP
       :up
