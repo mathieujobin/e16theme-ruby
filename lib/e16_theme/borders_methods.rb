@@ -142,6 +142,14 @@ module E16Theme
     BUTTON_SLIDEOUT=:button_slideout
     ACTION_WINDOW_SLIDEOUT=:action_window_slideout
 
+    def __TOP
+      :top
+    end
+
+    def __BOTTOM
+      :bottom
+    end
+
     def __UP
       :up
     end

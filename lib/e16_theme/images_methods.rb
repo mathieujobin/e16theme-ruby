@@ -13,25 +13,16 @@ module E16Theme
       @image_defs
     end
 
-    def __STRETCH
-      :stretch
-    end
-
-    def __STRECH
-      :stretch
-    end
-
-    def __TILE_H
-      :tile_h
-    end
-
-    def __TILE
-      :tile
-    end
-
-    def __SCALE
-      :scale
-    end
+    # fill rules for imageclasses
+    def __SCALE          ; :scale           ; end
+    def __STRETCH        ; :stretch         ; end
+    def __TILE_H         ; :tile_h          ; end
+    def __TILE_V         ; :tile_v          ; end
+    def __TILE           ; :tile            ; end
+    def __INTEGER_TILE_H ; :integer_tile_h  ; end
+    def __INTEGER_TILE_V ; :integer_tile_v  ; end
+    def __INTEGER_TILE   ; :integer_tile    ; end
+    def __STRECH         ; :stretch         ; end  # typo found in themes
 
     def menuknopf_kill
       :menuknopf_kill
@@ -53,15 +44,37 @@ module E16Theme
       IMAGE_HILITED_ACTIVE_STICKY
       IMAGE_CLICKED_ACTIVE_STICKY
     ].each do |method_name|
-      define_method(method_name) do |*args|
-        @image_defs[@current_image][method_name] ||= {}
-        @image_defs[@current_image][method_name][:pix] = args.shift
-        @image_defs[@current_image][method_name][:meta] = args
+      define_method(method_name) do |pixfile, fill, left, right, top, bottom|
+        @image_defs[@current_image][method_name] ||= {
+          pix: pixfile,
+          fill: fill,
+          left: left,
+          right: right,
+          top: top,
+          bottom: bottom
+        }
       end
     end
 
-    def IMAGE_PADDING(a,b,c,d)
-      @image_defs[@current_image][:image_padding] = {a: a, b: b, c: c, d: d}
+    def IMAGE_PADDING(left, right, top, bottom)
+      @image_defs[@current_image][:image_padding] = {
+        left: left,
+        right: right,
+        top: top,
+        bottom: bottom
+      }
+    end
+
+    def IMAGE_BEVEL(bevel)
+      @image_defs[@current_image][:image_bevel] = bevel
+    end
+
+    def IMAGE_ROTATE(rotate)
+      @image_defs[@current_image][:image_rotate] = rotate
+    end
+
+    def IMAGE_FLIP(flip)
+      @image_defs[@current_image][:image_flip] = flip
     end
 
     END_IMAGE=nil
