@@ -9,6 +9,7 @@ theme_path = ARGV.first || '.'
 
 parser = E16Theme::Parser.new(theme_path)
 parser.parse
+File.open("#{theme_path}/.success", "wb+") { |f| f.write "parser completed for #{theme_path}" }
 
 renderer = E16Theme::HtmlRenderer.new(theme_path, parser.image_definitions, parser.border_definitions)
 
