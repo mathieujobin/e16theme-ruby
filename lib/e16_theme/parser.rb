@@ -13,11 +13,12 @@ module E16Theme
     include DockConfigurator
 
     def parse
-      #puts images_content
+      puts images_content if ENV['E16PARSEDEBUG']
       eval images_content
       puts "*" * 50
-      puts borders_content
+      puts borders_content if ENV['E16PARSEDEBUG']
       eval borders_content
+      puts image_inspect if ENV['E16PARSEDEBUG']
     end
 
     def ensure_theme_location
@@ -53,7 +54,7 @@ module E16Theme
 
     def etheme_load_include(configfile)
       unless configfile == 'definitions'
-        puts "###### BEGIN PARSING #{configfile} <<<<"
+        puts "###### BEGIN PARSING #{configfile} <<<<" if ENV['E16PARSEDEBUG']
         eval File.read("#{theme_path}/#{configfile}")
       end
     end

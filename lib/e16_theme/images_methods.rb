@@ -1,8 +1,10 @@
+require 'yaml'
+
 module E16Theme
   module ImagesMethods
     def BEGIN_IMAGE(image_tagname)
       @image_defs ||= {}
-      puts "BEGIN_IMAGE: #{image_tagname}"
+      puts "BEGIN_IMAGE: #{image_tagname}" if ENV['E16PARSEDEBUG']
       @image_defs[image_tagname] ||= {}
       @current_image = image_tagname
     end
@@ -66,5 +68,8 @@ module E16Theme
 
     END_IMAGE=nil
 
+    def image_inspect
+      @image_defs.to_yaml
+    end
   end
 end
