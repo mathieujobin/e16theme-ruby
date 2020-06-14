@@ -11,6 +11,7 @@ module E16Theme
     include BordersMethods
     include WidgetStyling
     include DockConfigurator
+    include ThemeSpecific
 
     def parse
       puts images_content if ENV['E16PARSEDEBUG']
