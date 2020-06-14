@@ -24,6 +24,19 @@ module E16Theme
         <ul>
           #{found_modes_links}
         </ul>
+        #{draw_all_window_types}
+        #{draw_e13_hardcoded_window}
+      }
+    end
+
+    def draw_all_window_types
+      E16Theme::BordersMethods::MAIN_BORDER_TYPES.map do |border_type|
+        @border_definitions[border_type].inspect
+      end
+    end
+
+    def draw_e13_hardcoded_window
+      %Q{
         <table border=0 cellpadding=0 cellspacing=0>
           <tr class='top'>
             <td class='left'>

@@ -35,8 +35,6 @@ module E16Theme
       end
     end
 
-    private
-
     ### Main borders elements (images)
     TITLE_BAR_HORIZONTAL=:TITLE_BAR_HORIZONTAL
     BAR_VERTICAL=:BAR_VERTICAL
@@ -69,10 +67,22 @@ module E16Theme
     PB8=:pager_button8
 
     # Borders default definitions
-    BORDERLESS=:borderless
+    BORDERLESS=:borderless_definition
+    DEFAULT=:default_definition
+    FIXED_FRAME=:fixed_frame_definition
+    FIXED_SIZE=:fixed_size_definition
+    ICONBOX=:iconbox_definition
+    PAGER=:pager_definition
+    PAGER_RIGHT=:pager_right_definition
+    SHAPED=:shaped_definition
+    TRANSIENT=:transient_definition
+
+    MAIN_BORDER_TYPES=[
+      BORDERLESS, DEFAULT, FIXED_FRAME, FIXED_SIZE, ICONBOX, PAGER, PAGER_RIGHT, SHAPED, TRANSIENT
+    ]
+
     END_BORDER=:end_border
     END_BORDER_PART=nil
-    DEFAULT="default"
     BORDER_CHANGES_SHAPE=:BORDER_CHANGES_SHAPE
     KILL=:KILL
     ACTION_KILL=:ACTION_KILL
@@ -95,14 +105,7 @@ module E16Theme
     ACTION_RESIZE=:resize_h
     RESIZE_W=:resize_w
 
-    FIXED_FRAME=:fixed_frame
-    FIXED_SIZE=:fixed_size
 
-    ICONBOX=:iconbox_definition
-    PAGER=:pager_definition
-    PAGER_RIGHT=:pager_right
-    SHAPED=:shaped
-    TRANSIENT=:transient
     BUTTON_SLIDEOUT=:button_slideout
     ACTION_WINDOW_SLIDEOUT=:action_window_slideout
 
