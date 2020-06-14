@@ -4,34 +4,60 @@ module E16Theme
       @border_defs || {}
     end
 
-    def BEGIN_BORDER(*args)
-      raise "wait" if args.first.nil?
-      @current_border = args.shift
+    def BEGIN_BORDER(name, left, right, top, bottom)
+      raise "wait" if iclass.nil?
+      @current_border = iclass
       @border_defs ||= {}
-      @border_defs[@current_border] ||= {coords: args}
+      @border_defs[@current_border] ||= {
+        border_size_left: left,
+        border_size_right: right,
+        border_size_top: top,
+        border_size_bottom: bottom
+      }
     end
 
     def BORDER_CHANGES_SHAPE(*args)
       @border_defs[@current_border] ||= {}
-      @border_defs[@current_border][:BORDER_CHANGES_SHAPE] = args
+      @border_defs[@current_border][:BORDER_CHANGES_SHAPE] = args.first
     end
 
     def BORDER_SHADE_DIRECTION(*args)
       @border_defs[@current_border] ||= {}
-      @border_defs[@current_border][:BORDER_SHADE_DIRECTION] = args
+      @border_defs[@current_border][:BORDER_SHADE_DIRECTION] = args.first
     end
 
-    def BEGIN_BORDER_PART(part_name, a, b, c, d)
-      @part_name = part_name
+    def BEGIN_BORDER_PART(part_name, min_width, max_width, min_height, max_height)
+      @part_name = part_name # also known as iclass
       @border_defs[@current_border] ||= {}
       @border_defs[@current_border][:parts] ||= {@part_name => {}}
-      @border_defs[@current_border][:parts][@part_name] ||= {coords: [a,b,c,d]}
+      min_max = {
+        min_width: min_width,
+        max_width: max_width,
+        min_height: min_height,
+        max_height: max_height
+      }
+      @border_defs[@current_border][:parts][@part_name] ||= min_max
+    end
+
+    def BORDER_PART_REGION(o1, x1p, x1, y1p, y1, o2, x2p, x2, y2p, y2)
+      oyx = {
+        topleft_origin: o1,
+        topleft_x_percentage: x1p,
+        topleft_x_absolute: x1,
+        topleft_y_percentage: y1p,
+        topleft_y_absolute: y1,
+        bottomright_origin: o2,
+        bottomright_x_percentage: x2p,
+        bottomright_x_absolute: x2,
+        bottomright_y_percentage: y2p,
+        bottomright_y_absolute: y2
+      }
+      @border_defs[@current_border][:parts][@part_name][:BORDER_PART_REGION] ||= oyx
     end
 
     def method_missing(method_name, *args)
       args.unshift(method_name)
       case method_name.to_sym
-      when :BORDER_PART_REGION
       when :BORDER_PART_CURSOR
       when :BORDER_PART_ACTION
       when :BORDER_PART_KEEP_WHEN_SHADED
