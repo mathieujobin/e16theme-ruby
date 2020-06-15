@@ -1,12 +1,5 @@
 module E16Theme
-  class HtmlRenderer
-    def initialize(theme_path, image_definitions, border_definitions, mode=nil)
-      @theme_path = theme_path
-      @image_definitions = image_definitions
-      @border_definitions = border_definitions
-      @mode = mode || found_modes.first
-    end
-
+  class HtmlRenderer < BaseRenderer
     def draw_window_html
       #{draw_element(:TITLE_BAR_HORIZONTAL)}
       #{draw_element(:BAR_HORIZONTAL)}
@@ -14,6 +7,7 @@ module E16Theme
       #{draw_element(:BORDER_FIN)}
       #{draw_element(:BAR_TOP)}
       #{draw_element(:TITLEBAR)}
+      #<a href='/e16/theme/author?name=#{theme_name}'>[about:author]</a>
       %Q{
         <style>
         td {border: 0px solid red;}
@@ -119,10 +113,6 @@ module E16Theme
     def img_link(link)
       image_path = "#{@theme_path}/#{link}"
       "<img src='#{image_path}' />" if !link.to_s.empty?
-    end
-
-    def found_modes
-      @image_definitions.values.map {|v| v&.keys&.grep(/^IMAGE_/)}.flatten.uniq
     end
 
     def found_modes_links

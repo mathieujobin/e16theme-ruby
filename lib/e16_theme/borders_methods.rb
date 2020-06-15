@@ -5,8 +5,8 @@ module E16Theme
     end
 
     def BEGIN_BORDER(name, left, right, top, bottom)
-      raise "wait" if iclass.nil?
-      @current_border = iclass
+      raise "wait" if name.nil?
+      @current_border = name
       @border_defs ||= {}
       @border_defs[@current_border] ||= {
         border_size_left: left,
