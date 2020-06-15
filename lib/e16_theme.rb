@@ -8,6 +8,7 @@ require "e16_theme/parser"
 require "e16_theme/rails_engine"
 require "e16_theme/base_renderer"
 require "e16_theme/html_renderer"
+require "e16_theme/kwin_qml_renderer"
 
 class NilClass
   def present?

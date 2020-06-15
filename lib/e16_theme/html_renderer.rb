@@ -22,10 +22,14 @@ module E16Theme
         Available definitions: #{draw_all_window_types}
         <H3>Default definition</H3>
         #{draw_default_window}
-        <H3>Recipe</H3>
-        <pre>#{@border_definitions[E16Theme::BordersMethods::DEFAULT].to_yaml}</pre>
+
+        [<a href='/e16/theme/author?name=#{theme_name}'>about:author</a>]
+        [<a href='/e16/theme/kwin-qml?name=#{theme_name}'>KDE Plasma / kwin QML decoration</a>]
+
         <H3>Hardcoded table built from E13 example</H3>
         #{draw_e13_hardcoded_window}
+        <H3>Recipe</H3>
+        <pre>#{@border_definitions[E16Theme::BordersMethods::DEFAULT].to_yaml}</pre>
       }
     end
 

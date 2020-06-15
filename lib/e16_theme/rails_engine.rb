@@ -12,7 +12,8 @@ module E16Theme
         theme_name = theme_dir.split('/')[-2]
         "<li>
             <a href='/e16/theme/show?name=#{theme_name}'>#{theme_name}</a>
-            <a href='/e16/theme/author?name=#{theme_name}'>[about:author]</a>
+            [<a href='/e16/theme/author?name=#{theme_name}'>about:author</a>]
+            [<a href='/e16/theme/kwin-qml?name=#{theme_name}'>KDE Plasma / kwin QML decoration</a>]
         </li>"
       end
       render_html(%Q{
@@ -26,16 +27,10 @@ module E16Theme
     end
 
     def self.theme_show(env)
-      theme_name = params(env)["name"]
-      theme_path = "#{Rails.root}/public/e16themes/#{theme_name}/e16"
-      if Dir.exists?(theme_path)
-        parser = E16Theme::Parser.new(theme_path)
-        parser.parse
+      with_theme_path(env) do |theme_name, theme_path, parser|
         renderer = E16Theme::HtmlRenderer.new(
-          "/e16themes/#{theme_name}/e16", parser.image_definitions, parser.border_definitions, params(env)['mode'])
+          theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
         render_html renderer.draw_window_html
-      else
-        render_404
       end
     end
 
@@ -46,6 +41,38 @@ module E16Theme
         render_html File.read(author_file)
       else
         render_404 "author not found?"
+      end
+    end
+
+    def self.theme_qml(env)
+      with_theme_path(env) do |theme_name, theme_path, parser|
+        renderer = E16Theme::KwinQmlRenderer.new(
+          theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
+        render_html %Q{
+          <h3>/metadata.desktop</h3>
+          <pre>
+            #{renderer.metadata_desktop_content}
+          </pre>
+          <h3>/contents/config/main.xml</h3>
+          <pre>
+            #{renderer.main_xml_content}
+          </pre>
+          <h3>/contents/ui/main.qml</h3>
+          <pre>
+            #{renderer.main_qml_content}
+          </pre>
+        }
+      end
+    end
+
+    def self.with_theme_path(env)
+      theme_name = params(env)["name"]
+      theme_path = "#{Rails.root}/public/e16themes/#{theme_name}/e16"
+      if Dir.exists?(theme_path)
+        parser = E16Theme::Parser.new(theme_path).tap(&:parse)
+        yield name, theme_path, parser
+      else
+        render_404
       end
     end
 

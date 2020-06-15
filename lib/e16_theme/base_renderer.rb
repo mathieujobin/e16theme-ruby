@@ -1,9 +1,11 @@
 module E16Theme
   class BaseRenderer
-    def initialize(theme_path, image_definitions, border_definitions, mode=nil)
+    def initialize(theme_name, theme_path, parser, mode=nil)
+      @theme_name = theme_name
       @theme_path = theme_path
-      @image_definitions = image_definitions
-      @border_definitions = border_definitions
+      @parser = parser
+      @image_definitions = parser.image_definitions
+      @border_definitions = parser.border_definitions
       @mode = mode || found_modes.first
     end
 
