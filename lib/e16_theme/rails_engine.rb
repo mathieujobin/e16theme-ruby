@@ -27,7 +27,7 @@ module E16Theme
     end
 
     def self.theme_show(env)
-      with_theme_path(env) do |theme_name, theme_path, parser|
+      with_theme_path(env) do |theme_name, parser|
         renderer = E16Theme::HtmlRenderer.new(
           theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
         render_html renderer.draw_window_html
@@ -45,7 +45,7 @@ module E16Theme
     end
 
     def self.theme_qml(env)
-      with_theme_path(env) do |theme_name, theme_path, parser|
+      with_theme_path(env) do |theme_name, parser|
         renderer = E16Theme::KwinQmlRenderer.new(
           theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
         render_html %Q{
@@ -70,7 +70,7 @@ module E16Theme
       theme_path = "#{Rails.root}/public/e16themes/#{theme_name}/e16"
       if Dir.exists?(theme_path)
         parser = E16Theme::Parser.new(theme_path).tap(&:parse)
-        yield name, theme_path, parser
+        yield theme_name, parser
       else
         render_404
       end

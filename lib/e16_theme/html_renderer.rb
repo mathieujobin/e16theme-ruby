@@ -29,7 +29,7 @@ module E16Theme
         <H3>Hardcoded table built from E13 example</H3>
         #{draw_e13_hardcoded_window}
         <H3>Recipe</H3>
-        <pre>#{@border_definitions[E16Theme::BordersMethods::DEFAULT].to_yaml}</pre>
+        <pre>#{border_definitions[E16Theme::BordersMethods::DEFAULT].to_yaml}</pre>
       }
     end
 
@@ -38,15 +38,15 @@ module E16Theme
     end
 
     def draw_all_window_types
-      border_types.select{|bt| @border_definitions[bt].present?}.map do |border_type|
+      border_types.select{|bt| border_definitions[bt].present?}.map do |border_type|
         # "<H3>#{border_type}</H3>"
-        # <pre>#{@border_definitions[border_type]&.keys}</pre>"
+        # <pre>#{border_definitions[border_type]&.keys}</pre>"
         border_type
       end.join(", ")
     end
 
     def draw_default_window
-      @border_definitions[E16Theme::BordersMethods::DEFAULT][:parts].map do |part_name, part_def|
+      border_definitions[E16Theme::BordersMethods::DEFAULT][:parts].map do |part_name, part_def|
         #"#{part_name}<pre>#{part_def.inspect}</pre>#{draw_element(part_name)}"
         draw_element(part_name)
       end.join("")
@@ -108,14 +108,14 @@ module E16Theme
     end
 
     def draw_element(element)
-      if @border_definitions[:default_definition][:parts][element].present?
-        puts @border_definitions[:default_definition][:parts][element]
+      if border_definitions[:default_definition][:parts][element].present?
+        puts border_definitions[:default_definition][:parts][element]
       end
-      img_link @image_definitions.dig(element, @mode.to_s, :pix)
+      img_link image_definitions.dig(element, mode.to_s, :pix)
     end
 
     def img_link(link)
-      image_path = "#{@theme_path}/#{link}"
+      image_path = "#{theme_path}/#{link}"
       "<img src='#{image_path}' />" if !link.to_s.empty?
     end
 

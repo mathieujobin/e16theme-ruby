@@ -15,15 +15,21 @@ module E16Theme
 
     def metadata_desktop_content
       template = File.read("#{templates_folder}/metadata.desktop.erb")
-      ERB.new(template).result(OpenStruct.new(vars).instance_eval { binding })
+      ERB.new(template).result(template_variables)
     end
 
     def main_xml_content
       template = File.read("#{templates_folder}/main.xml.erb")
+      ERB.new(template).result(template_variables)
     end
 
     def main_qml_content
       template = File.read("#{templates_folder}/main.qml.erb")
+      ERB.new(template).result(template_variables)
+    end
+
+    def template_variables
+      OpenStruct.new(self).instance_eval { binding }
     end
 
     def dir_name
