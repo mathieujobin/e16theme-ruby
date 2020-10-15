@@ -1,35 +1,46 @@
 # E16Theme
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/e16_theme`. To experiment with that code, run `bin/console` for an interactive prompt.
+E16Theme is a project aiming at parsing any Enlightenment DR16 themes and converting them for kwin. The KDE window manager running the beautiful Plasma Desktop. Many DR16 themes are also beautiful and it would be great to be able to import them all at once very easily.
 
-TODO: Delete this and the text above, and describe your gem
+To develop the converter, I am using Ruby and ERB templates to generate QML files.
+To make it easy for development, I have added a rails engine, so you can easily plug it into a Rails application.
+
+## Demo
+
+https://fifty-fifty.5gl.org/e16/theme/show?name=e13
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'e16_theme'
+gem 'e16_theme', github: 'mathieujobin/e16theme-ruby'
+```
+
+Add this line to your application's config/routes.rb:
+
+```ruby
+  mount E16Theme::RailsEngine => '/e16'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install e16_theme
-
 ## Usage
 
-TODO: Write usage instructions here
+For now this is very early stage, and its not really usable. 
+but you visit your favorite theme page, and you try to make it draw.
+Then we need to properly develop the generated QML
+once That is ready, users would copy paste it on their computer.
+
+until we make a download tool. we could automatically generate a zip file that people can install straight from their system settings.
+
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+QML skills needed ! 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/e16_theme.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mathieujobin/e16_theme.
