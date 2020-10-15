@@ -49,17 +49,19 @@ module E16Theme
         renderer = E16Theme::KwinQmlRenderer.new(
           theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
         render_html %Q{
+          <a href="/e16/theme/show?name=#{theme_name}">show #{theme_name}</a>
+          <a href="/e16">back to list</a>
           <h3>/metadata.desktop</h3>
           <pre>
-            #{renderer.metadata_desktop_content}
+            #{renderer.metadata_desktop_content rescue "problem parsing theme"}
           </pre>
           <h3>/contents/config/main.xml</h3>
           <pre>
-            #{renderer.main_xml_content}
+            #{renderer.main_xml_content rescue "problem parsing theme"}
           </pre>
           <h3>/contents/ui/main.qml</h3>
           <pre>
-            #{renderer.main_qml_content}
+            #{renderer.main_qml_content rescue "problem parsing theme"}
           </pre>
         }
       end

@@ -19,6 +19,7 @@ module E16Theme
         <ul>
           #{found_modes_links}
         </ul>
+        <a href="/e16">back to list</a><br/>
         Available definitions: #{draw_all_window_types}
         <H3>Default definition</H3>
         #{draw_default_window}
