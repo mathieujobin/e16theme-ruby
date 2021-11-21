@@ -16,7 +16,7 @@ module E16Theme
             [<a href='/e16/theme/kwin-qml?name=#{theme_name}'>KDE Plasma / kwin QML decoration</a>]
         </li>"
       end
-      render_html(%Q{
+      render_200(%Q{
                  <h1>E16 window decoration showdown</h1>
                  <p>These themes could be available under KDE Plasma as kwin decoration.</p>
                  <p>What do you think of this idea? can you help writing the decorator for kwin?</p>
@@ -30,7 +30,7 @@ module E16Theme
       with_theme_path(env) do |theme_name, parser|
         renderer = E16Theme::HtmlRenderer.new(
           theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
-        render_html renderer.draw_window_html
+        render_200 renderer.draw_window_html
       end
     end
 
@@ -38,7 +38,7 @@ module E16Theme
       theme_name = params(env)["name"]
       author_file = "#{Rails.root}/public/e16themes/#{theme_name}/e16/ABOUT/MAIN"
       if File.exists?(author_file)
-        render_html File.read(author_file)
+        render_200 File.read(author_file)
       else
         render_404 "author not found?"
       end
@@ -48,7 +48,7 @@ module E16Theme
       with_theme_path(env) do |theme_name, parser|
         renderer = E16Theme::KwinQmlRenderer.new(
           theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode'])
-        render_html %Q{
+        render_200 %Q{
           <a href="/e16/theme/show?name=#{theme_name}">show #{theme_name}</a>
           <a href="/e16">back to list</a>
           <h3>/metadata.desktop</h3>
@@ -67,6 +67,16 @@ module E16Theme
       end
     end
 
+    def self.main_qml(env)
+      with_theme_path(env) do |theme_name, parser|
+        render_200(
+          E16Theme::KwinQmlRenderer.new(
+            theme_name, "/e16themes/#{theme_name}/e16", parser, params(env)['mode']
+          ).main_qml_content, 'text/plain'
+        )
+      end
+    end
+
     def self.with_theme_path(env)
       theme_name = params(env)["name"]
       theme_path = "#{Rails.root}/public/e16themes/#{theme_name}/e16"
@@ -78,8 +88,8 @@ module E16Theme
       end
     end
 
-    def self.render_html(output)
-      [200, {"Content-Type" => 'text/html'}, [output]]
+    def self.render_200(output, content_type='text/html')
+      [200, {"Content-Type" => content_type}, [output]]
     end
 
     def self.render_404(text='Not Found')

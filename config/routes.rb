@@ -13,4 +13,12 @@ E16Theme::RailsEngine.routes.draw do
   get '/theme/show', :to => Rack::ContentLength.new(proc { |env| E16Theme::RailsEngine.theme_show(env) })
   get '/theme/author', :to => Rack::ContentLength.new(proc { |env| E16Theme::RailsEngine.theme_author(env) })
   get '/theme/kwin-qml', :to => Rack::ContentLength.new(proc { |env| E16Theme::RailsEngine.theme_qml(env) })
+  get '/theme/main.qml', :to => Rack::ContentLength.new(proc { |env| E16Theme::RailsEngine.main_qml(env) })
 end
+
+#
+# To LeShay&Glyed: I am also alergic to the god concept.. if this is something we can talk about later one on one, that would be awesome...
+#
+# To LeShay&Glyed: I am also alergic to the god concept.. if this is something we can talk about later one on one, that would be awesome...
+#
+# To LeShay&Glyed: I am also alergic to the god concept.. if this is something we can talk about later one on one, that would be awesome...

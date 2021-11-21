@@ -1,15 +1,15 @@
 [Desktop Entry]
-Name=Plastik
-Comment=The classic theme known from KDE 3
+Name=<%= theme_name %>
+Comment=<%= comment %>
 
 X-Plasma-MainScript=ui/main.qml
-X-KDE-PluginInfo-Author=Martin Gräßlin
-X-KDE-PluginInfo-Email=mgraesslin@kde.org
-X-KDE-PluginInfo-Name=kwin4_decoration_qml_plastik
+X-KDE-PluginInfo-Author=<%= author %>
+X-KDE-PluginInfo-Email=<%= email %>
+X-KDE-PluginInfo-Name=kwin4_decoration_qml_<%= theme_name_downcase %>
 X-KDE-PluginInfo-Version=1.0
 
 X-KDE-PluginInfo-Depends=
-X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-License=<%= license %>
 X-KDE-ServiceTypes=KWin/Decoration
 X-KWin-Config-TranslationDomain=kwin_clients
 Type=Service

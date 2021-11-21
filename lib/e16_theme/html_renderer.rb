@@ -22,8 +22,16 @@ module E16Theme
         <a href="/e16">back to list</a><br/>
         Available definitions: #{draw_all_window_types}
         <H3>Default definition</H3>
+        <p>
         #{draw_default_window}
-
+        </p>
+        <div id=qmlembed></div>
+        <script>
+        var div = document.getElementById('qmlembed');
+        var engine = new QmlWeb.QMLEngine(div);
+        engine.loadFile('/e16/theme/main.qml?name=#{theme_name}');
+        engine.start();
+        </script>
         [<a href='/e16/theme/author?name=#{theme_name}'>about:author</a>]
         [<a href='/e16/theme/kwin-qml?name=#{theme_name}'>KDE Plasma / kwin QML decoration</a>]
 
@@ -33,6 +41,17 @@ module E16Theme
         <pre>#{border_definitions[E16Theme::BordersMethods::DEFAULT].to_yaml}</pre>
       }
     end
+
+    #{author_information}
+
+    #     def author_information
+#       if File.exists?("#{Rails.root}/public/#{theme_path}/ABOUT/MAIN")
+#         "<H3>Author</H3>
+#         <p><iframe src=#{"#{theme_path}/ABOUT/MAIN"}/></p>"
+#       else
+#         "author not found?"
+#       end
+#     end
 
     def border_types
       E16Theme::BordersMethods::MAIN_BORDER_TYPES

@@ -13,4 +13,4 @@ File.open("#{theme_path}/.success", "wb+") { |f| f.write "parser completed for #
 
 renderer = E16Theme::HtmlRenderer.new(theme_path, parser.image_definitions, parser.border_definitions)
 
-puts renderer.draw_window_html
+# puts renderer.draw_window_html
