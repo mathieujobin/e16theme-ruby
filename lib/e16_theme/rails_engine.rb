@@ -6,8 +6,7 @@ module E16Theme
     isolate_namespace E16Theme
 
     def self.index_page
-      dirs = Dir.glob("#{Rails.root}/public/e16themes/*/e16")
-      e16_theme_links = dirs.map do |theme_dir|
+      e16_theme_links = ThemeRepo.dirs.map do |theme_dir|
         next unless File.exists?("#{theme_dir}/.success")
         theme_name = theme_dir.split('/')[-2]
         "<li>
@@ -77,11 +76,8 @@ module E16Theme
       end
     end
 
-    def self.with_theme_path(env)
-      theme_name = params(env)["name"]
-      theme_path = "#{Rails.root}/public/e16themes/#{theme_name}/e16"
-      if Dir.exists?(theme_path)
-        parser = E16Theme::Parser.new(theme_path).tap(&:parse)
+    def self.with_theme_path(theme_name)
+      if parser = E16Theme::ThemeRepo.parser_for(theme_name)
         yield theme_name, parser
       else
         render_404
@@ -94,6 +90,10 @@ module E16Theme
 
     def self.render_404(text='Not Found')
       [404, {}, [text]]
+    end
+
+    def self.theme_name_from_params
+      params(env)["name"]
     end
 
     def self.params(env)

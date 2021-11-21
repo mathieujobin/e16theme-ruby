@@ -1,3 +1,6 @@
+#require 'active_support'
+require 'action_view' # /template/handlers/erb'
+
 module E16Theme
   class KwinQmlRenderer < BaseRenderer
 
