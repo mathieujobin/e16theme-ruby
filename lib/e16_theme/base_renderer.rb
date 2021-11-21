@@ -9,11 +9,7 @@ module E16Theme
       @parser = parser
       @image_definitions = parser.image_definitions
       @border_definitions = parser.border_definitions
-      @mode = mode || found_modes.first
-    end
-
-    def found_modes
-      @image_definitions.values.map {|v| v&.keys&.grep(/^IMAGE_/)}.flatten.uniq
+      @mode = mode || parser.first_available_mode
     end
   end
 end

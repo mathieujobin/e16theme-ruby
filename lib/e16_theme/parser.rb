@@ -22,6 +22,34 @@ module E16Theme
       puts image_inspect if ENV['E16PARSEDEBUG']
     end
 
+    def available_modes
+      @available_modes ||= image_definitions.values.map {|v| v&.keys&.grep(/^IMAGE_/)}.flatten.uniq
+    end
+
+    def first_available_mode
+      available_modes.first
+    end
+
+    def border_size_left
+      border_definitions[:default_definition][:border_size_left]
+    end
+
+    def border_size_right
+      border_definitions[:default_definition][:border_size_right]
+    end
+
+    def border_size_top
+      border_definitions[:default_definition][:border_size_top]
+    end
+
+    def border_size_bottom
+      border_definitions[:default_definition][:border_size_bottom]
+    end
+
+    def parts
+      border_definitions[:default_definition][:parts]
+    end
+
     def ensure_theme_location
       unless File.exists?("#{theme_path}/#{images_file}")
         puts "give me a path where I can find #{borders_file} and #{images_file}"

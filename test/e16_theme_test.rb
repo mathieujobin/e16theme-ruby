@@ -33,9 +33,9 @@ class E16ThemeTest < Minitest::Test
     theme_name = "e13"
     theme_path = "/e16themes/#{theme_name}/e16"
     parser = E16Theme::ThemeRepo.parser_for(theme_name)
-    renderer = E16Theme::KwinQmlRenderer.new(theme_name, theme_path, parser, "default")
-    puts renderer.metadata_desktop_content
-    puts renderer.main_xml_content
+    renderer = E16Theme::KwinQmlRenderer.new(theme_name, theme_path, parser)
+    assert 548 == renderer.metadata_desktop_content.size
+    assert 780 == renderer.main_xml_content.size
     puts renderer.main_qml_content
   end
 
