@@ -36,7 +36,11 @@ class E16ThemeTest < Minitest::Test
     renderer = E16Theme::KwinQmlRenderer.new(theme_name, theme_path, parser)
     assert 548 == renderer.metadata_desktop_content.size
     assert 780 == renderer.main_xml_content.size
-    puts renderer.main_qml_content
+    main_qml_content = renderer.main_qml_content
+    File.open("/tmp/e13-theme-test.qml", "wb+") {|f| f.write main_qml_content }
+    system "qmlscene /tmp/e13-theme-test.qml"
+    puts main_qml_content.size
+    assert 14844 == main_qml_content.size
   end
 
 end

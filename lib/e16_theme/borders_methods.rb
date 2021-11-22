@@ -29,7 +29,7 @@ module E16Theme
     def BEGIN_BORDER_PART(part_name, min_width, max_width, min_height, max_height)
       @part_name = part_name # also known as iclass
       @border_defs[@current_border] ||= {}
-      @border_defs[@current_border][:parts] ||= {@part_name => {}}
+      @border_defs[@current_border][:parts] ||= {} # {@part_name => {}}
       min_max = {
         min_width: min_width,
         max_width: max_width,
