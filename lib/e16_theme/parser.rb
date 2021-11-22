@@ -50,6 +50,37 @@ module E16Theme
       border_definitions[:default_definition][:parts]
     end
 
+    def display_all_parts(mode)
+      parts.map do |image, border_part_info|
+        border_part_to_rectangle(image, border_part_info, mode.to_s)
+      end.join("\n")
+    end
+
+    def border_part_to_rectangle(image, border_part_info, mode)
+      if border_part_info[:max_width] == border_part_info[:min_width]
+        width = "width: #{border_part_info[:max_width]}"
+      else
+        width = "fillMode: Image.PreserveAspectFit"
+      end
+      if border_part_info[:max_height] == border_part_info[:min_height]
+        height = "height: #{border_part_info[:max_height]}"
+      elsif width != "fillMode: Image.PreserveAspectFit"
+        height = "fillMode: Image.PreserveAspectFit"
+      end
+      "
+      Rectangle { Image {
+        //#{border_part_info.inspect}
+        #{width}
+        #{height}
+        source: '#{source_image(image, mode)}'
+      }}
+      "
+    end
+
+    def source_image(image, mode)
+      "#{theme_path}/#{image_definitions.dig(image, mode.to_s, :pix)}"
+    end
+
     def ensure_theme_location
       unless File.exists?("#{theme_path}/#{images_file}")
         puts "give me a path where I can find #{borders_file} and #{images_file}"

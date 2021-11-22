@@ -28,158 +28,67 @@ Decoration {
       borders.setTopBorder(<%= border_size_top %>);
       borders.setBottomBorder(<%= border_size_bottom %>);
     }
-    function readConfig() {
-        var titleAlignLeft = decoration.readConfig("titleAlignLeft", true);
-        var titleAlignCenter = decoration.readConfig("titleAlignCenter", false);
-        var titleAlignRight = decoration.readConfig("titleAlignRight", false);
-        if (titleAlignRight) {
-            root.titleAlignment = Text.AlignRight;
-        } else if (titleAlignCenter) {
-            root.titleAlignment = Text.AlignHCenter;
-        } else {
-            if (!titleAlignLeft) {
-                console.log("Error reading title alignment: all alignment options are false");
-            }
-            root.titleAlignment = Text.AlignLeft;
-        }
-        root.animateButtons = decoration.readConfig("animateButtons", true);
-        if (decoration.animationsSupported) {
-            root.animationDuration = 150;
-            root.animateButtons = false;
-        }
-    }
-    ColorHelper {
-        id: colorHelper
-    }
-    DecorationOptions {
-        id: options
-        deco: decoration
-    }
-    property int borderSize: decorationSettings.borderSize
-    property alias buttonSize: titleRow.captionHeight
-    property alias titleAlignment: caption.horizontalAlignment
-    property color titleBarColor: options.titleBarColor
+
+    property int borderSize: 0
+    //property alias buttonSize: titleRow.captionHeight
+    //property alias titleAlignment: caption.horizontalAlignment
+    //property color titleBarColor: options.titleBarColor
     // set by readConfig after Component completed, ensures that buttons do not flicker
     property int animationDuration: 0
-    property bool animateButtons: true
-    Behavior on titleBarColor {
-        ColorAnimation {
-            duration: root.animationDuration
-        }
-    }
+    property bool animateButtons: false
+
     id: root
     alpha: false
-    Rectangle {
-        color: root.titleBarColor
-        anchors {
-            fill: parent
-        }
-        border {
-            width: decoration.client.maximized ? 0 : 2
-            color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade)
-        }
-        Rectangle {
-            id: borderLeft
-            anchors {
-                left: parent.left
-                top: parent.top
-                bottom: parent.bottom
-                leftMargin: 1
-                bottomMargin: 1
-                topMargin: 1
-            }
-            visible: !decoration.client.maximized
-            width: root.borders.left
-            color: root.titleBarColor
-            Grid {
-                width: 1
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                rows: parts.size
-                columns: 1
-                <%=
-                  parts.map do |image, meta|
-                  "Cell { Image {
-                    source: '#{parser.image_definitions.dig(image, mode.to_s, :pix)}'
+    Canvas {
+      id: mycanvas
+      anchors {
+        fill: parent
+      }
+      onPaint: {
+        var ctx = getContext("2d");
+        //=>{:topleft_origin=>-1, :topleft_x_percentage=>0,
+        <%= parts.map do |image, info|
+          x = info[:BORDER_PART_REGION][:topleft_x_absolute]
+          y = info[:BORDER_PART_REGION][:topleft_y_absolute]
+          if x.to_i > 0
+          "ctx.drawImage('#{parser.source_image(image, mode)}', #{x}, #{y});\n"
+          else
+            x = info[:BORDER_PART_REGION][:bottomright_x_absolute]
+            y = info[:BORDER_PART_REGION][:bottomright_y_absolute]
+            if x.to_i > 0
+              " // from bottom corner?
+              ctx.drawImage('#{parser.source_image(image, mode)}', -#{x}, -#{y});\n"
+            else
+              "// #{image} -- #{info}"
+            end
+          end
+        end.join("\n") %>
 
-                  }}"
-                  end.join("\n")
-                %>
-            }
-        }
-        Rectangle {
-            id: borderRight
-            anchors {
-                right: parent.right
-                top: parent.top
-                bottom: parent.bottom
-                rightMargin: 1
-                bottomMargin: 1
-                topMargin: 1
-            }
-            visible: !decoration.client.maximized
-            width: root.borders.right -1
-            color: root.titleBarColor
-            Rectangle {
-                width: 1
-                anchors {
-                    bottom: parent.bottom
-                    top: parent.top
-                    right: parent.right
-                }
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
-            }
-        }
-        Rectangle {
-            id: borderBottom
-            anchors {
-                left: parent.right
-                right: parent.left
-                bottom: parent.bottom
-                leftMargin: 1
-                rightMargin: 1
-            }
-            height: root.borders.bottom
-            visible: !decoration.client.maximized
-            color: root.titleBarColor
-            Rectangle {
-                height: 1
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    bottom: parent.bottom
-                }
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.DarkShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
-            }
-        }
+      }
+    }
+    Rectangle {
+        <% parser.display_all_parts(mode) %>
 
         Rectangle {
             id: top
             property int topMargin: 1
             property real normalHeight: titleRow.normalHeight + topMargin + 1
             property real maximizedHeight: titleRow.maximizedHeight + 1
-            height: decoration.client.maximized ? maximizedHeight : normalHeight
             anchors {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                topMargin: decoration.client.maximized ? 0 : top.topMargin
-                leftMargin: decoration.client.maximized ? 0 : 2
-                rightMargin: decoration.client.maximized ? 0 : 2
+                //topMargin: decoration.client.maximized ? 0 : top.topMargin
+                //leftMargin: decoration.client.maximized ? 0 : 2
+                //rightMargin: decoration.client.maximized ? 0 : 2
             }
             gradient: Gradient {
                 id: topGradient
                 GradientStop {
                     position: 0.0
-                    color: colorHelper.shade(root.titleBarColor, ColorHelper.MidlightShade, colorHelper.contrast - 0.4)
                 }
                 GradientStop {
                     id: middleGradientStop
-                    position: 4.0/(decoration.client.maximized ? top.maximizedHeight : top.normalHeight)
-                    color: colorHelper.shade(root.titleBarColor, ColorHelper.MidShade, colorHelper.contrast - 0.4)
                 }
                 GradientStop {
                     position: 1.0
@@ -193,8 +102,6 @@ Decoration {
                     left: top.left
                     right: top.right
                 }
-                visible: !decoration.client.maximized
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.LightShade, colorHelper.contrast - (decoration.client.active ? 0.4 : 0.8))
             }
 
             Item {
@@ -208,74 +115,33 @@ Decoration {
                     left: parent.left
                     right: parent.right
                     top: parent.top
-                    topMargin: decoration.client.maximized ? 0 : titleRow.topMargin
-                    leftMargin: decoration.client.maximized ? 0 : 3
-                    rightMargin: decoration.client.maximized ? 0 : 3
+                    //topMargin: decoration.client.maximized ? 0 : titleRow.topMargin
+                    //leftMargin: decoration.client.maximized ? 0 : 3
+                    //rightMargin: decoration.client.maximized ? 0 : 3
                     bottomMargin: titleRow.bottomMargin
                 }
-                ButtonGroup {
-                    id: leftButtonGroup
-                    spacing: 1
-                    explicitSpacer: root.buttonSize
-                    menuButton: menuButtonComponent
-                    appMenuButton: appMenuButtonComponent
-                    minimizeButton: minimizeButtonComponent
-                    maximizeButton: maximizeButtonComponent
-                    keepBelowButton: keepBelowButtonComponent
-                    keepAboveButton: keepAboveButtonComponent
-                    helpButton: helpButtonComponent
-                    shadeButton: shadeButtonComponent
-                    allDesktopsButton: stickyButtonComponent
-                    closeButton: closeButtonComponent
-                    buttons: options.titleButtonsLeft
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                    }
-                }
+
                 Text {
                     id: caption
                     textFormat: Text.PlainText
                     anchors {
                         top: parent.top
-                        left: leftButtonGroup.right
-                        right: rightButtonGroup.left
+//                         left: leftButtonGroup.right
+//                         right: rightButtonGroup.left
                         rightMargin: 5
                         leftMargin: 5
                         topMargin: 3
                     }
-                    color: options.fontColor
+                    //color: options.fontColor
                     Behavior on color {
                         ColorAnimation { duration: root.animationDuration }
                     }
-                    text: decoration.client.caption
-                    font: options.titleFont
+                    //text: decoration.client.caption
+                    //font: options.titleFont
                     elide: Text.ElideMiddle
                     renderType: Text.NativeRendering
                 }
-                ButtonGroup {
-                    id: rightButtonGroup
-                    spacing: 1
-                    explicitSpacer: root.buttonSize
-                    menuButton: menuButtonComponent
-                    appMenuButton: appMenuButtonComponent
-                    minimizeButton: minimizeButtonComponent
-                    maximizeButton: maximizeButtonComponent
-                    keepBelowButton: keepBelowButtonComponent
-                    keepAboveButton: keepAboveButtonComponent
-                    helpButton: helpButtonComponent
-                    shadeButton: shadeButtonComponent
-                    allDesktopsButton: stickyButtonComponent
-                    closeButton: closeButtonComponent
-                    buttons: options.titleButtonsRight
-                    anchors {
-                        top: parent.top
-                        right: parent.right
-                    }
-                }
-                Component.onCompleted: {
-                    decoration.installTitleItem(titleRow);
-                }
+
             }
         }
 
@@ -290,8 +156,7 @@ Decoration {
                 }
                 height: 1
                 y: top.height - 1
-                visible: decoration.client.maximized
-                color: colorHelper.shade(root.titleBarColor, ColorHelper.MidShade)
+                color: 'yellow'
             }
 
             Rectangle {
@@ -304,98 +169,11 @@ Decoration {
                 }
                 border {
                     width: 1
-                    color: colorHelper.shade(root.titleBarColor, ColorHelper.MidShade)
+                    color: 'purple'
                 }
-                visible: !decoration.client.maximized
                 color: root.titleBarColor
             }
         }
     }
 
-    Component {
-        id: maximizeButtonComponent
-        DecorationButton {
-            objectName: "maximizeButton"
-            buttonType: DecorationOptions.DecorationButtonMaximizeRestore
-
-        }
-    }
-    Component {
-        id: keepBelowButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonKeepBelow
-
-        }
-    }
-    Component {
-        id: keepAboveButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonKeepAbove
-
-        }
-    }
-    Component {
-        id: helpButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonQuickHelp
-
-        }
-    }
-    Component {
-        id: minimizeButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonMinimize
-
-        }
-    }
-    Component {
-        id: shadeButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonShade
-
-        }
-    }
-    Component {
-        id: stickyButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonOnAllDesktops
-
-        }
-    }
-    Component {
-        id: closeButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonClose
-
-        }
-    }
-    Component {
-        id: menuButtonComponent
-        MenuButton {
-            width: root.buttonSize
-            height: root.buttonSize
-        }
-    }
-    Component {
-        id: appMenuButtonComponent
-        DecorationButton {
-            buttonType: DecorationOptions.DecorationButtonApplicationMenu
-
-        }
-    }
-    Component.onCompleted: {
-        borders.setBorders(4);
-        borders.setTitle(top.normalHeight);
-        maximizedBorders.setTitle(top.maximizedHeight);
-        readBorderSize();
-        readConfig();
-    }
-    Connections {
-        target: decoration
-        onConfigChanged: root.readConfig()
-    }
-    Connections {
-        target: decorationSettings
-        onBorderSizeChanged: root.readBorderSize();
-    }
-}
+  }
