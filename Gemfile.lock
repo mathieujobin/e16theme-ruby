@@ -41,7 +41,7 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
-    rake (10.5.0)
+    rake (13.0.6)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     zeitwerk (2.5.1)
@@ -55,7 +55,7 @@ DEPENDENCIES
   e16_theme!
   looksee
   minitest (~> 5.0)
-  rake (~> 10.0)
+  rake (~> 13.0)
 
 BUNDLED WITH
    1.17.3
