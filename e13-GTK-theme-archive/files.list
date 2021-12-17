@@ -1,0 +1,6 @@
+$ ls -ltr 
+total 208
+-rw-rw-r-- 1 mathieu mathieu 56265 Jul  2  2003 25231.jpg
+-rw-rw-r-- 1 mathieu mathieu 62046 Jul  2  2003 25235.jpg
+-rw-rw-r-- 1 mathieu mathieu 85735 Jul  2  2003 e13gtk-1.2.x.tar.gz
+
